@@ -11,11 +11,16 @@
 
                         {% for field in form if field.name != "csrf_token" %}
                             <p>{{ field }}
-                                {% for error in field.errors %}
-                                    {{ error }}
-                                {% endfor %}
                             </p>
                         {% endfor %}
+
+                        {% if form.errors %}
+                        <div class="form-group alert alert-danger" style="margin-top: 10px;">
+                            {% for field, errors in form.errors.items() %}
+                            {{ ', '.join(errors) }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </form>
 
                 </div>

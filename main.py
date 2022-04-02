@@ -3,12 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, FileField, TextAreaField
+from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
 from wtforms.validators import DataRequired, Email, InputRequired, Length, ValidationError, NumberRange
 import email_validator
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from datetime import datetime
 import re
+import sys
 
 import sqlite3
 from werkzeug.utils import secure_filename
@@ -127,30 +129,52 @@ class LoginForm(FlaskForm):
                                                                                         "до %(max)d")])
     submit = SubmitField(label='Войти')
 
+
 def max_year():
     now = datetime.now()
     return now.year + 5
 
+
 class FilmForm(FlaskForm):
+
     film_name = StringField(label='Название фильма', validators=[InputRequired('Пустое поле')],
                             render_kw={"class": "form-control", "placeholder": "Введите название фильма"})
-    year = IntegerField(label='Год выхода', validators=[NumberRange(min=1890, max=max_year(), message="Введите корректный год")],
+    year = IntegerField(label='Год выхода', validators=[InputRequired('Пустое поле'),
+                        NumberRange(min=1890, max=max_year(), message="Введите корректный год")],
                         render_kw={"class": "form-control", "placeholder": "Введите год"})
     descript = TextAreaField(label='Описание фильма', validators=[Length(max=700, message="Слишком большое описание")],
                              render_kw={"class": "form-control", "placeholder": "Введите описание"})
-    poster = FileField('Добавить постер', render_kw={"class": "form-control-file"})
+    poster = FileField('Добавить постер', validators=[FileRequired(), FileAllowed(['jpg', 'png']),
+                       FileSize(1024*1024, 1, "Слишком большой")], render_kw={"class": "form-control-file"})
     submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 
 # ..
 # Здесь  обработчики страниц непосредственно.
 
-def last_add_film():
+
+def last_add_film(list_num):
     films = Film.query.order_by(Film.date_add.desc()).all()
     for el in films:
         if el.user_id == current_user.id:
-            current_user.film_list = str(current_user.film_list) + str(el.id) + ' '
+            if list_num == 1:
+                current_user.film_list = str(current_user.film_list) + " " + str(el.id) + " "
+            elif list_num == 2:
+                current_user.wish_list = str(current_user.wish_list) + " " + str(el.id) + " "
+            elif list_num == 3:
+                current_user.archive = str(current_user.archive) + " " + str(el.id) + " "
             print('films list:', str(current_user.film_list))
             break
+
+
+def move_to_new_list(dest_list, film_id):
+    films = Film.query.order_by(Film.date_add.desc()).all()
+    if dest_list == 1:
+        current_user.film_list = str(current_user.film_list) + " " + str(film_id) + " "
+    elif dest_list == 2:
+        current_user.wish_list = str(current_user.wish_list) + " " + str(film_id) + " "
+    elif dest_list == 3:
+        current_user.archive = str(current_user.archive) + " " + str(film_id) + " "
+    print('films list:', str(current_user.film_list))
 
 
 @app.route("/update-film-list", methods=("POST", "GET"))
@@ -164,18 +188,24 @@ def update_film_list():
 
 
 
-@app.route("/films", methods=("POST", "GET"))
-def films():
+@app.route("/films/<int:list_num>", methods=("POST", "GET"))
+def films(list_num):
     # Код под комментарием восстанавливает список фильмов для пользователя
-    bet = User.query.order_by(User.id).all()
-    bet[1].film_list = "4 6 7 9 10 11 12"
-    db.session.commit()
-    print(bet[1].film_list)
+    # bet = User.query.order_by(User.id).all()
+    # bet[1].film_list = " 4 6 7 9 10 11 12"
+    # db.session.commit()
+    # print(bet[1].film_list)
 
     films = Film.query.order_by(Film.id).all()
     str_films = str.split(current_user.film_list) #преобразует строку с ид фильмов в список слов
     film_list = [int(el) for el in str_films] #преобразует список слов в массив чисел ид фильмов
-    return render_template('films.html', films=films, film_list=enumerate(film_list, start=1))
+    str_films = str.split(current_user.wish_list)
+    wish_list = [int(el) for el in str_films]
+    str_films = str.split(current_user.archive)
+    archive = [int(el) for el in str_films]
+    return render_template('films.html', films=films, film_list=enumerate(film_list, start=1),
+                           wish_list=enumerate(wish_list, start=1), archive=enumerate(archive,
+                           start=1), list_num=list_num)
 
 
 @app.route("/add-film", methods=("POST", "GET"))
@@ -191,7 +221,7 @@ def add_film():
         film = Film(film_name=film_name, year=year, descript=descript, poster=img, user_id=user_id)
         try:
             db.session.add(film)
-            last_add_film()
+            last_add_film(1)
             db.session.commit()
             return redirect('/')
         except:
@@ -199,21 +229,43 @@ def add_film():
     else:
         return render_template('add_film.html', form=form)
 
+def erase_film(id, origin):
+    if origin == 1:
+        str_films = current_user.film_list
+    elif origin == 2:
+        str_films = current_user.wish_list
+    elif origin == 3:
+        str_films = current_user.archive
 
-@app.route("/film-del/<int:id>", methods=("POST", "GET"))
-def film_del(id):
-    str_films = current_user.film_list
-    film = str(id) + " "
-    new_film_list = re.sub(str(film), "", str(str_films))
+    film = " " + str(id) + " "
+    new_str_films = re.sub(str(film), " ", str(str_films))
     print(str_films)
     print(film)
-    print(new_film_list)
-    current_user.film_list = new_film_list
+    if origin == 1:
+        current_user.film_list = new_str_films
+    elif origin == 2:
+        current_user.wish_list = new_str_films
+    elif origin == 3:
+        current_user.archive = new_str_films
+
+@app.route("/film-del/<int:id>/<int:origin_list>", methods=("POST", "GET"))
+def film_del(id, origin_list):
+    erase_film(id, origin_list)
     try:
         db.session.commit()
-        return redirect( url_for('films'))
+        return redirect( url_for('films', list_num=origin_list))
     except:
         return "При удалении фильма произошла ошибка"
+
+
+@app.route("/relocate-film/<int:id>/<int:origin_list>/<int:dest_list>", methods=("POST", "GET"))
+def relocate_film(id, origin_list, dest_list):
+    erase_film(id, origin_list)
+    db.session.commit()
+    move_to_new_list(dest_list, id)
+    db.session.commit()
+    return redirect( url_for('films', list_num=origin_list))
+
 
 @app.route('/')
 def index():
