@@ -167,10 +167,10 @@ def update_film_list():
 @app.route("/films", methods=("POST", "GET"))
 def films():
     # Код под комментарием восстанавливает список фильмов для пользователя
-    # bet = User.query.order_by(User.id).all()
-    # bet[1].film_list = "4 6 7 9 10 11"
-    # db.session.commit()
-    # print(bet[1].film_list)
+    bet = User.query.order_by(User.id).all()
+    bet[1].film_list = "4 6 7 9 10 11 12"
+    db.session.commit()
+    print(bet[1].film_list)
 
     films = Film.query.order_by(Film.id).all()
     str_films = str.split(current_user.film_list) #преобразует строку с ид фильмов в список слов
