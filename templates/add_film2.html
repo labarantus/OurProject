@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-sm reg-container">
+        <div class="row">
+            <div class="col-xl"></div>
+            <div class="col-sm outline-col">
+                <div class="mb-3">
+                    <form action="" class="reg-form", method="post" enctype="multipart/form-data">
+                        <h3 style="text-align: center; margin-bottom: 30px;">Добавление фильма</h3>
+                        <input type="text" name="film_name" id="film_name" class="form-control" placeholder="Введите название фильма"><br>
+                        <input type="text" name="year" id="year" class="form-control" placeholder="Введите год выхода фильма"><br>
+                        <textarea type="text" name="descript" id="descript" class="form-control" placeholder="Введите описание к фильму"></textarea><br>
+                        <input type="file" name="poster" id="poster" ><br><br>
+                        <input type="submit" class="btn-success" value="Добавить">
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-xl"></div>
+        </div>
+
+    </div>
+
+{% endblock %}

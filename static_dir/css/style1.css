@@ -1,0 +1,108 @@
+:root {
+    --color1: #ffffff;
+}
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+nav
+{
+    background-color: #000000;
+
+}
+
+.recently-watched{
+    margin: 50px auto 50px;
+}
+
+.reg-container {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.reg-form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-check {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.outline-col {
+    border-style: double;
+    border-width: 1px;
+    border-color: #988999;
+    border-radius: 5px;
+    box-shadow: 0 0 10px -3px black;
+}
+
+.user-profile-container {
+    margin-top: 80px;
+    background-color: #888888;
+    border-color: #988999;
+    border-radius: 5px;
+    box-shadow: 0 0 10px -3px black;
+    height: 200px;
+}
+
+.row {
+padding-left: 15px;
+padding-right:15px;
+}
+
+.search-form {
+margin-top: 10px;
+}
+
+.icon-profile:
+{
+width: 20px;
+height: 20px;}
+
+.profile-icon {
+width: 40px;
+height: 40px;
+}
+.nav-item {
+margin-right: 20px;
+}
+
+.ava-item {
+margin-right: -8px;
+}
+
+.container-fluid {
+margin-right: 15px;}
+
+.card-style {
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
+    border-radius: 15px;
+  }
+
+/* You can adjust the image size by increasing/decreasing the width, height */
+.custom-circle-image {
+  width: 150px; /* note i used vw not px for better responsive */
+  height: 150px;
+}
+
+.custom-circle-image img {
+  object-fit: cover;
+}
+
+.custom-circle-image-small {
+  width: 30px; /* note i used vw not px for better responsive */
+  height: 30px;
+}
+
+.custom-circle-image-small img {
+  object-fit: cover;
+}

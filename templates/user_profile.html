@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row p-3 justify-content-center" style="margin-top: 100px;">
+    <div class="col-lg-3">
+        <div class="card mb-4 card-style">
+            <div class="card-body text-center">
+                <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                    <img class="w-100 h-100" src="{{ url_for('userava') }}" alt="avatar">
+                </div>
+                <h5 class="my-3">{{ current_user.name }}</h5>
+                <p class="text-muted">{{ current_user.email }}</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <form action="{{ url_for('upload_avatar') }}" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file">
+                        <button type="submit">Загрузить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

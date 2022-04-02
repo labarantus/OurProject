@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5 col-md-8">
+    <h1>Мои фильмы</h1>
+        <div class="accordion" id="asdas">
+            {% for n, i in film_list %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{i-1}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{i-1}}" aria-expanded="false" aria-controls="collapse{{i-1}}">
+                            <h4>{{n}}. {{films[i-1].film_name}} ({{films[i-1].year}})</h4>
+                        </button>
+                    </h2>
+                    <div id="collapse{{i-1}}" class="accordion-collapse collapse" aria-labelledby="heading{{i-1}}" >
+                        <div class="card bg-light m-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-md-2">
+                              <img src="{{ url_for('getposter', id=i) }}" class="img-fluid rounded" alt="poster" height="280" width="185">
+                            </div>
+                            <div class="col-md-9">
+                              <div class="card-body">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{films[i-1].descript}}</p>
+                                <a href="{{ url_for('film_del', id=i) }}" class="btn btn-primary">Удалить</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+
+
+{% endblock %}

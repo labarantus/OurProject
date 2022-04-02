@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container-sm reg-container">
+        <div class="row">
+            <div class="col-xl"></div>
+            <div class="col-sm outline-col">
+                <div class="mb-3">
+                    <form action="" class="login-form" method="post">
+                        {{ form.csrf_token() }}
+                        <h3 style="margin-top: 10px;">Авторизация пользователя</h3>
+                        <div class="form-group">
+                            {{ form.name.label() }}
+                            {{ form.name(class = "form-control reg-form") }}
+                        </div>
+                        <div class="form-group">{{ form.password.label() }}
+                            {{ form.password(class = "form-control reg-form") }}</div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                            {% for category, message in  get_flashed_messages(with_categories=true) %}
+	                            <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        <p style="margin-top: 15px;">Нет аккаунта? <a href="#" class="alert-link">Зарегистрироваться.</a></p>
+                        <p style="margin-top: -10px;">Забыли пароль? <a href="#" class="alert-link">Восстановить.</a></p>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl"></div>
+        </div>
+    </div>
+
+{% endblock %}
