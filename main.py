@@ -184,9 +184,6 @@ class FilmForm(FlaskForm):
                        FileSize(1024*1024, 1, "Слишком большой")], render_kw={"class": "form-control-file"})
     submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 
-class ScoreForm(FlaskForm):
-    score = RadioField('Label', choices=[('value', 'description'),('value_two', 'whatever')])
-    submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 # ..
 # Здесь  обработчики страниц непосредственно.
 
@@ -200,19 +197,28 @@ def last_add_film():
 
 @app.route("/my-films/<int:list_num>", methods=("POST", "GET"))
 def my_films(list_num):
-    form = ScoreForm()
-    if request.method == "POST":
-        print(request.form['simple-rating'])
-        return redirect('/my-films/1')
+
     films = Film.query.order_by(Film.id).all()
     info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id).order_by(FilmInfo.film_id).all()
+    if request.method == "POST":
+        print(request.form['origin_list'])
+        origin_list = request.form['origin_list']
+        try:
+            film_id = request.form['film_id']
+            score = 'simple-rating'+str(int(film_id)-1)
+            film = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.film_id == film_id).first()
+            film.score = request.form[str(score)]
+            db.session.commit()
+        except:
+            return redirect( url_for('my_films', list_num=origin_list))
+        return redirect(url_for('my_films', list_num=origin_list))
     current_films = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 1).order_by(
         FilmInfo.last_move.desc()).all()
     wish_list = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 2).order_by(
         FilmInfo.last_move.desc()).all()
     archive = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 3).order_by(
         FilmInfo.last_move.desc()).all()
-    return render_template('my_films.html', form=form, films=films, info=info, list_num=list_num,
+    return render_template('my_films.html', films=films, info=info, list_num=list_num,
                            current_films=enumerate(current_films, start=1),
                            wish_list=enumerate(wish_list, start=1),
                            archive=enumerate(archive, start=1))
@@ -252,13 +258,13 @@ def film_update(id):
     film = Film.query.get(id)
     info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.film_id == film.id).first()
 
-    if request.method == 'GET': form.descript.data = film.descript
+    if request.method == 'GET':
+        form.descript.data = film.descript
     if form.validate_on_submit():
         film.film_name = form.film_name.data
         film.year = form.year.data
         film.descript = form.descript.data
         info.link = form.link.data
-        print(request.form['simple-rating'])
         if form.poster.data:
             img = form.poster.data
             film.poster = img.read()

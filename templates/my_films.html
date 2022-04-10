@@ -1,40 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <!-- Модальное окно для измененя рейтинга -->
-    <div class="modal fade" id="starRating" tabindex="-1" aria-labelledby="starRatingLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="starRatinglLabel">Изменить оценкук</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action="" class="reg-form", method="post">
-            <div class="simple-rating">
-                <div class="simple-rating-items">
-                    <input id="simple-rating-5" type="radio" class="simple-rating-item" name="simple-rating" value="5">
-                    <label for="simple-rating-5" class="simple-rating-label"></label>
-                    <input id="simple-rating-4" type="radio" class="simple-rating-item" name="simple-rating" value="4">
-                    <label for="simple-rating-4" class="simple-rating-label"></label>
-                    <input id="simple-rating-3" type="radio" class="simple-rating-item" name="simple-rating" value="3">
-                    <label for="simple-rating-3" class="simple-rating-label"></label>
-                    <input id="simple-rating-2" type="radio" class="simple-rating-item" name="simple-rating" value="2">
-                    <label for="simple-rating-2" class="simple-rating-label"></label>
-                    <input id="simple-rating-1" type="radio" class="simple-rating-item" name="simple-rating" value="1">
-                    <label for="simple-rating-1" class="simple-rating-label"></label>
-                </div>
-            </div>
-                  <input type="submit" class="btn btn-success" value="Submit">
-                  </form>
-          </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            <input type="submit" class="btn btn-success" value="Submit">
-          </div>
-        </div>
-      </div>
-    </div>
+
 <div class="container mt-5 col-md-8">
     <h1 class="text-center">Мои фильмы</h1>
  <ul class="nav nav-tabs nav-fill " id="myTab" role="tablist">
@@ -69,6 +37,52 @@
     {% endif %}
           <div class="accordion accordion-flush" id="ac1">
             {% for n, i in current_films %}
+              <div class="modal fade" id="exampleModal{{i.film_id-1}}" tabindex="-1" aria-labelledby="exampleModal{{i.film_id-1}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle" id="exampleModalLabel{{i.film_id-1}}">Изменить оценку</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                        <form action="" class="reg-form", method="post">
+                            <div class="simple-rating position-absolute top-0 start-50 translate-middle my-5">
+                                <div class="simple-rating-items">
+                                    <input id="simple-rating{{i.film_id-1}}-10" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="10.0">
+                                    <label for="simple-rating{{i.film_id-1}}-10" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-9" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="9.0">
+                                    <label for="simple-rating{{i.film_id-1}}-9" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-8" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="8.0">
+                                    <label for="simple-rating{{i.film_id-1}}-8" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-7" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="7.0">
+                                    <label for="simple-rating{{i.film_id-1}}-7" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-6" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="6.0">
+                                    <label for="simple-rating{{i.film_id-1}}-6" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-5" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="5.0">
+                                    <label for="simple-rating{{i.film_id-1}}-5" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-4" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="4.0">
+                                    <label for="simple-rating{{i.film_id-1}}-4" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-3" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="3.0">
+                                    <label for="simple-rating{{i.film_id-1}}-3" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-2" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="2.0">
+                                    <label for="simple-rating{{i.film_id-1}}-2" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-1" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="1.0">
+                                    <label for="simple-rating{{i.film_id-1}}-1" class="simple-rating-label"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                                    <input type="submit" class="btn btn-success position-absolute bottom-0 start-50 translate-middle" value="Сохранить">
+                            <br>
+                            <br>
+                            <input type="hidden" id="film_id" name="film_id" value="{{i.film_id}}">
+                            <input type="hidden" id="score" name="score" value="simple-rating{{i.film_id}}">
+                            <input type="hidden" id="origin_list" name="origin_list" value="1">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="accordion-item">
                      <h2 class="accordion-header" id="heading{{i.film_id-1}}">
                         <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
@@ -112,8 +126,8 @@
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=1) }}" class="btn btn-danger">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=1 ) }}" class="btn btn-primary">На очереди</a>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=1) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=1 ) }}" class="btn btn-primary mt-1">На очереди</a>
                                     <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=1 ) }}" class="btn btn-primary mt-1">Завершен</a>
                                 </p>
                                 <p>
@@ -126,6 +140,11 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
+                                  </p> Ваша оценка:
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
+                                         {{ i.score }}
+                                        </button>
+                                  </p>
                               </div>
                             </div>
                           </div>
@@ -143,6 +162,52 @@
       {% endif %}
           <div class="accordion accordion-flush" id="ac2">
             {% for n, i in wish_list %}
+              <div class="modal fade" id="exampleModal{{i.film_id-1}}" tabindex="-1" aria-labelledby="exampleModal{{i.film_id-1}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle" id="exampleModalLabel{{i.film_id-1}}">Изменить оценку</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                        <form action="" class="reg-form", method="post">
+                            <div class="simple-rating position-absolute top-0 start-50 translate-middle my-5">
+                                <div class="simple-rating-items">
+                                    <input id="simple-rating{{i.film_id-1}}-10" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="10.0">
+                                    <label for="simple-rating{{i.film_id-1}}-10" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-9" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="9.0">
+                                    <label for="simple-rating{{i.film_id-1}}-9" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-8" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="8.0">
+                                    <label for="simple-rating{{i.film_id-1}}-8" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-7" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="7.0">
+                                    <label for="simple-rating{{i.film_id-1}}-7" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-6" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="6.0">
+                                    <label for="simple-rating{{i.film_id-1}}-6" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-5" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="5.0">
+                                    <label for="simple-rating{{i.film_id-1}}-5" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-4" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="4.0">
+                                    <label for="simple-rating{{i.film_id-1}}-4" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-3" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="3.0">
+                                    <label for="simple-rating{{i.film_id-1}}-3" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-2" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="2.0">
+                                    <label for="simple-rating{{i.film_id-1}}-2" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-1" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="1.0">
+                                    <label for="simple-rating{{i.film_id-1}}-1" class="simple-rating-label"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                                    <input type="submit" class="btn btn-success position-absolute bottom-0 start-50 translate-middle" value="Сохранить">
+                            <br>
+                            <br>
+                            <input type="hidden" id="film_id" name="film_id" value="{{i.film_id}}">
+                            <input type="hidden" id="score" name="score" value="simple-rating{{i.film_id}}">
+                            <input type="hidden" id="origin_list" name="origin_list" value="2">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                  <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{i.film_id-1}}">
                         <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
@@ -186,8 +251,8 @@
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=2) }}" class="btn btn-danger">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=2 ) }}" class="btn btn-primary">В процессе</a>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=2) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=2 ) }}" class="btn btn-primary mt-1">В процессе</a>
                                     <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=2 ) }}" class="btn btn-primary mt-1">Завершен</a>
                                 </p>
                                 <p>
@@ -200,6 +265,11 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
+                                  </p> Ваша оценка:
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
+                                         {{ i.score }}
+                                        </button>
+                                  </p>
                               </div>
                             </div>
                           </div>
@@ -216,6 +286,52 @@
       {% endif %}
           <div class="accordion accordion-flush" id="ac3">
             {% for n, i in archive %}
+              <div class="modal fade" id="exampleModal{{i.film_id-1}}" tabindex="-1" aria-labelledby="exampleModal{{i.film_id-1}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle" id="exampleModalLabel{{i.film_id-1}}">Изменить оценку</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                        <form action="" class="reg-form", method="post">
+                            <div class="simple-rating position-absolute top-0 start-50 translate-middle my-5">
+                                <div class="simple-rating-items">
+                                    <input id="simple-rating{{i.film_id-1}}-10" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="10.0">
+                                    <label for="simple-rating{{i.film_id-1}}-10" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-9" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="9.0">
+                                    <label for="simple-rating{{i.film_id-1}}-9" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-8" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="8.0">
+                                    <label for="simple-rating{{i.film_id-1}}-8" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-7" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="7.0">
+                                    <label for="simple-rating{{i.film_id-1}}-7" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-6" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="6.0">
+                                    <label for="simple-rating{{i.film_id-1}}-6" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-5" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="5.0">
+                                    <label for="simple-rating{{i.film_id-1}}-5" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-4" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="4.0">
+                                    <label for="simple-rating{{i.film_id-1}}-4" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-3" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="3.0">
+                                    <label for="simple-rating{{i.film_id-1}}-3" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-2" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="2.0">
+                                    <label for="simple-rating{{i.film_id-1}}-2" class="simple-rating-label"></label>
+                                    <input id="simple-rating{{i.film_id-1}}-1" type="radio" class="simple-rating-item" name="simple-rating{{i.film_id-1}}" value="1.0">
+                                    <label for="simple-rating{{i.film_id-1}}-1" class="simple-rating-label"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                                    <input type="submit" class="btn btn-success position-absolute bottom-0 start-50 translate-middle" value="Сохранить">
+                            <br>
+                            <br>
+                            <input type="hidden" id="film_id" name="film_id" value="{{i.film_id}}">
+                            <input type="hidden" id="score" name="score" value="simple-rating{{i.film_id}}">
+                            <input type="hidden" id="origin_list" name="origin_list" value="3">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                  <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{i.film_id-1}}">
                         <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
@@ -259,8 +375,8 @@
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=3) }}" class="btn btn-danger">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=3 ) }}" class="btn btn-primary">В процессе</a>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=3) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=3 ) }}" class="btn btn-primary mt-1">В процессе</a>
                                     <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=3 ) }}" class="btn btn-primary mt-1">На очереди</a>
                                 </p>
                                 <p>
@@ -273,6 +389,11 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
+                                  </p> Ваша оценка:
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
+                                         {{ i.score }}
+                                        </button>
+                                  </p>
                               </div>
                             </div>
                           </div>
