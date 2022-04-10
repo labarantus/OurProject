@@ -2,47 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="936cf34f-f357-4878-8e9c-bda8ae5b7d0f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/README" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/README" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/alembic.ini" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/alembic.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/env.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/script.py.mako" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/0a4415c3e310_add_wish_list_and_archive_to_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/versions/0a4415c3e310_add_wish_list_and_archive_to_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/0c36e5be7b74_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/versions/0c36e5be7b74_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.rtl.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-grid.rtl.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.rtl.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-reboot.rtl.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.rtl.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap-utilities.rtl.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap.rtl.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/bootstrap.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/bootstrap.rtl.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/fontello.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/fontello.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/css/style1.css" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/css/style1.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.bundle.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.esm.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.esm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.esm.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.esm.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static_dir/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static_dir/js/bootstrap.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/add_film.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add_film.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/add_film2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/films.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/films1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/films2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/films3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/films4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +12,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="27QnVaAp5mwXVMSGV6lzz5aBRo8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -60,8 +23,31 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="OurProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\kinol\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
