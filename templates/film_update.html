@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container-sm reg-container">
+        <div class="row">
+            <div class="col-xl"></div>
+            <div class="col-sm outline-col">
+                <div class="mb-3">
+                    <form action="" class="reg-form", method="post" enctype="multipart/form-data">
+                        {{ form.csrf_token() }}
+                        <div class="simple-rating">
+            <div class="simple-rating-items">
+                <input id="simple-rating-5" type="radio" class="simple-rating-item" name="simple-rating" value="5">
+                <label for="simple-rating-5" class="simple-rating-label"></label>
+                <input id="simple-rating-4" type="radio" class="simple-rating-item" name="simple-rating" value="4">
+                <label for="simple-rating-4" class="simple-rating-label"></label>
+                <input id="simple-rating-3" type="radio" class="simple-rating-item" name="simple-rating" value="3">
+                <label for="simple-rating-3" class="simple-rating-label"></label>
+                <input id="simple-rating-2" type="radio" class="simple-rating-item" name="simple-rating" value="2">
+                <label for="simple-rating-2" class="simple-rating-label"></label>
+                <input id="simple-rating-1" type="radio" class="simple-rating-item" name="simple-rating" value="1">
+                <label for="simple-rating-1" class="simple-rating-label"></label>
+            </div>
+        </div>
+                        <p>{{ form.film_name(value=film.film_name) }}</p>
+                        <p>{{ form.year(value=film.year) }}</p>
+                        <p>{{ form.descript() }}</p>
+                        <p> {{ form.link(value=info.link)}} </p>
+                        <p>{{ form.poster}}</p>
+                        <p>{{ form.submit(value="Изменить фильм") }}</p>
+
+
+                        {% if form.errors %}
+                        <div class="form-group alert alert-danger" style="margin-top: 10px;">
+                            {% for field, errors in form.errors.items() %}
+                            {{ ', '.join(errors) }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-xl"></div>
+        </div>
+
+    </div>
+
+{% endblock %}

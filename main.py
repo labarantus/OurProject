@@ -2,9 +2,10 @@ from flask import Flask, request, render_template, redirect, flash, url_for, mak
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, IntegerField, FileField, TextAreaField
+from wtforms import StringField, SubmitField, PasswordField, IntegerField, FileField, TextAreaField, URLField, RadioField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
-from wtforms.validators import DataRequired, Email, InputRequired, Length, ValidationError, NumberRange
+from wtforms.validators import DataRequired, Email, InputRequired, Length, ValidationError, \
+                               NumberRange, URL, Regexp, HostnameValidation
 import email_validator
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
@@ -15,8 +16,6 @@ import sys
 import sqlite3
 from werkzeug.utils import secure_filename
 import os
-
-
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 UPLOAD_FOLDER = 'static_dir\img'
@@ -40,6 +39,30 @@ login_manager = LoginManager(app)
 def load_user(user_id):
     return db.session.query(User).get(user_id)
 
+
+class URLcheck(Regexp):
+    def __init__(self, require_tld=True, message=None):
+        regex = (
+            r"^[a-z]+://"
+            r"(?P<host>[^\/\?:]+)"
+            r"(?P<port>:[0-9]+)?"
+            r"(?P<path>\/.*?)?"
+            r"(?P<query>\?.*)?$"
+        )
+        super().__init__(regex, re.IGNORECASE, message)
+        self.validate_hostname = HostnameValidation(
+            require_tld=require_tld, allow_ip=True
+        )
+
+    def __call__(self, form, field):
+        message = self.message
+        if message is None:
+            message = field.gettext("Invalid URL.")
+        match = super().__call__(form, field, message)
+        print(match)
+
+        if match and not self.validate_hostname(match.group("host")):
+            raise ValidationError(message)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,13 +97,25 @@ class Film(db.Model):
     film_name = db.Column(db.String(50), nullable=False)
     year = db.Column(db.String(50), nullable=True)
     descript = db.Column(db.String(512), nullable=True)
+    length = db.Column(db.Integer, nullable=True, default=90)
     poster = db.Column(db.LargeBinary, nullable=True)
     date_add = db.Column(db.DateTime(), default=datetime.utcnow)
-    link = db.Column(db.String)
     user_id = db.Column(db.Integer, default=-1)
 
     def __repr__(self):
         return '<Film %r>' % self.id
+
+
+class FilmInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False )
+    film_id = db.Column(db.Integer, nullable=False)
+    list_num = db.Column(db.Integer, default=1)
+    last_move = db.Column(db.DateTime(), default=datetime.utcnow)
+    link = db.Column(db.String, nullable=True, default="")
+    score = db.Column(db.Float, nullable=True)
+    review = db.Column(db.String, nullable=True)
+
 
 
 class Serial(db.Model):
@@ -90,8 +125,8 @@ class Serial(db.Model):
     descript = db.Column(db.String(512), nullable=False)
     seasons = db.Column(db.Integer, nullable=False)
     series = db.Column(db.Integer, nullable=False)
+    series_length = db.Column(db.Integer, nullable=False)
     poster = db.Column(db.LargeBinary, nullable=True)
-    link = db.Column(db.String)
     user_id = db.Column(db.Integer, default=-1)
 
     def __repr__(self):
@@ -136,76 +171,51 @@ def max_year():
 
 
 class FilmForm(FlaskForm):
-
-    film_name = StringField(label='Название фильма', validators=[InputRequired('Пустое поле')],
+    film_name = StringField( label='Название фильма',  validators=[InputRequired('Пустое поле')],
                             render_kw={"class": "form-control", "placeholder": "Введите название фильма"})
     year = IntegerField(label='Год выхода', validators=[InputRequired('Пустое поле'),
                         NumberRange(min=1890, max=max_year(), message="Введите корректный год")],
                         render_kw={"class": "form-control", "placeholder": "Введите год"})
     descript = TextAreaField(label='Описание фильма', validators=[Length(max=700, message="Слишком большое описание")],
                              render_kw={"class": "form-control", "placeholder": "Введите описание"})
-    poster = FileField('Добавить постер', validators=[FileRequired(), FileAllowed(['jpg', 'png']),
+    link = URLField(label="Ссылка для просмотра", validators=[URLcheck(message='Введите корректный адрес')],
+                    render_kw={"class": "form-control", "placeholder": "Введите адрес сайта для просмотра"})
+    poster = FileField('Добавить постер', validators=[ FileAllowed(['jpg', 'png']),
                        FileSize(1024*1024, 1, "Слишком большой")], render_kw={"class": "form-control-file"})
     submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 
+class ScoreForm(FlaskForm):
+    score = RadioField('Label', choices=[('value', 'description'),('value_two', 'whatever')])
+    submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 # ..
 # Здесь  обработчики страниц непосредственно.
 
 
-def last_add_film(list_num):
+def last_add_film():
     films = Film.query.order_by(Film.date_add.desc()).all()
     for el in films:
         if el.user_id == current_user.id:
-            if list_num == 1:
-                current_user.film_list = str(current_user.film_list) + " " + str(el.id) + " "
-            elif list_num == 2:
-                current_user.wish_list = str(current_user.wish_list) + " " + str(el.id) + " "
-            elif list_num == 3:
-                current_user.archive = str(current_user.archive) + " " + str(el.id) + " "
-            print('films list:', str(current_user.film_list))
-            break
+            return el.id
 
 
-def move_to_new_list(dest_list, film_id):
-    films = Film.query.order_by(Film.date_add.desc()).all()
-    if dest_list == 1:
-        current_user.film_list = str(current_user.film_list) + " " + str(film_id) + " "
-    elif dest_list == 2:
-        current_user.wish_list = str(current_user.wish_list) + " " + str(film_id) + " "
-    elif dest_list == 3:
-        current_user.archive = str(current_user.archive) + " " + str(film_id) + " "
-    print('films list:', str(current_user.film_list))
-
-
-@app.route("/update-film-list", methods=("POST", "GET"))
-def update_film_list():
-    films = Film.query.order_by(Film.date_add.desc()).all()
-    for el in films:
-        if el.user_id == current_user.id:
-            current_user.film_list = str(current_user.film_list) + str(el.id) + ' '
-            print('films list:', str(current_user.film_list))
-            break
-
-
-
-@app.route("/films/<int:list_num>", methods=("POST", "GET"))
-def films(list_num):
-    # Код под комментарием восстанавливает список фильмов для пользователя
-    # bet = User.query.order_by(User.id).all()
-    # bet[1].film_list = " 4 6 7 9 10 11 12"
-    # db.session.commit()
-    # print(bet[1].film_list)
-
+@app.route("/my-films/<int:list_num>", methods=("POST", "GET"))
+def my_films(list_num):
+    form = ScoreForm()
+    if request.method == "POST":
+        print(request.form['simple-rating'])
+        return redirect('/my-films/1')
     films = Film.query.order_by(Film.id).all()
-    str_films = str.split(current_user.film_list) #преобразует строку с ид фильмов в список слов
-    film_list = [int(el) for el in str_films] #преобразует список слов в массив чисел ид фильмов
-    str_films = str.split(current_user.wish_list)
-    wish_list = [int(el) for el in str_films]
-    str_films = str.split(current_user.archive)
-    archive = [int(el) for el in str_films]
-    return render_template('films.html', films=films, film_list=enumerate(film_list, start=1),
-                           wish_list=enumerate(wish_list, start=1), archive=enumerate(archive,
-                           start=1), list_num=list_num)
+    info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id).order_by(FilmInfo.film_id).all()
+    current_films = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 1).order_by(
+        FilmInfo.last_move.desc()).all()
+    wish_list = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 2).order_by(
+        FilmInfo.last_move.desc()).all()
+    archive = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.list_num == 3).order_by(
+        FilmInfo.last_move.desc()).all()
+    return render_template('my_films.html', form=form, films=films, info=info, list_num=list_num,
+                           current_films=enumerate(current_films, start=1),
+                           wish_list=enumerate(wish_list, start=1),
+                           archive=enumerate(archive, start=1))
 
 
 @app.route("/add-film", methods=("POST", "GET"))
@@ -215,13 +225,20 @@ def add_film():
         film_name = form.film_name.data
         year = form.year.data
         descript = form.descript.data
+        if form.link.data:
+            link = form.link.data
         poster = form.poster.data
         img = poster.read()
         user_id = current_user.id
         film = Film(film_name=film_name, year=year, descript=descript, poster=img, user_id=user_id)
         try:
             db.session.add(film)
-            last_add_film(1)
+            db.session.commit()
+            if form.link.data:
+                info = FilmInfo(user_id=user_id, film_id=last_add_film(),  link=link)
+            else:
+                info = FilmInfo(user_id=user_id, film_id=last_add_film())
+            db.session.add(info)
             db.session.commit()
             return redirect('/')
         except:
@@ -229,42 +246,49 @@ def add_film():
     else:
         return render_template('add_film.html', form=form)
 
-def erase_film(id, origin):
-    if origin == 1:
-        str_films = current_user.film_list
-    elif origin == 2:
-        str_films = current_user.wish_list
-    elif origin == 3:
-        str_films = current_user.archive
+@app.route("/my-films/<int:id>/update", methods=("POST", "GET"))
+def film_update(id):
+    form = FilmForm()
+    film = Film.query.get(id)
+    info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.film_id == film.id).first()
 
-    film = " " + str(id) + " "
-    new_str_films = re.sub(str(film), " ", str(str_films))
-    print(str_films)
-    print(film)
-    if origin == 1:
-        current_user.film_list = new_str_films
-    elif origin == 2:
-        current_user.wish_list = new_str_films
-    elif origin == 3:
-        current_user.archive = new_str_films
+    if request.method == 'GET': form.descript.data = film.descript
+    if form.validate_on_submit():
+        film.film_name = form.film_name.data
+        film.year = form.year.data
+        film.descript = form.descript.data
+        info.link = form.link.data
+        print(request.form['simple-rating'])
+        if form.poster.data:
+            img = form.poster.data
+            film.poster = img.read()
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "При добавлении фильма произошла ошибкаы"
+    else:
+        return render_template('film_update.html', form=form, film=film, info=info)
 
-@app.route("/film-del/<int:id>/<int:origin_list>", methods=("POST", "GET"))
-def film_del(id, origin_list):
-    erase_film(id, origin_list)
+
+@app.route("/film-del/<int:film_id>/<int:origin_list>", methods=("POST", "GET"))
+def film_del(film_id, origin_list):
+    info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.film_id == film_id).first()
     try:
+        db.session.delete(info)
         db.session.commit()
-        return redirect( url_for('films', list_num=origin_list))
+        return redirect( url_for('my_films', list_num=origin_list))
     except:
         return "При удалении фильма произошла ошибка"
 
 
-@app.route("/relocate-film/<int:id>/<int:origin_list>/<int:dest_list>", methods=("POST", "GET"))
-def relocate_film(id, origin_list, dest_list):
-    erase_film(id, origin_list)
+@app.route("/relocate-film/<int:film_id>/<int:dest_list>/<int:origin_list>", methods=("POST", "GET"))
+def relocate_film(film_id, dest_list, origin_list):
+    info = FilmInfo.query.filter(FilmInfo.user_id == current_user.id, FilmInfo.film_id == film_id).first()
+    info.list_num = dest_list
+    info.last_move = datetime.now()
     db.session.commit()
-    move_to_new_list(dest_list, id)
-    db.session.commit()
-    return redirect( url_for('films', list_num=origin_list))
+    return redirect( url_for('my_films', list_num=origin_list))
 
 
 @app.route('/')

@@ -75,9 +75,12 @@ height: 40px;
 .nav-item {
 margin-right: 20px;
 }
+.nav-link {
+display: inline-block;
+}
 
 .ava-item {
-margin-right: -8px;
+margin-right: 20px;
 }
 
 .container-fluid {
@@ -101,6 +104,7 @@ margin-right: 15px;}
 .custom-circle-image-small {
   width: 30px; /* note i used vw not px for better responsive */
   height: 30px;
+  display: inline-block;
 }
 
 .custom-circle-image-small img {

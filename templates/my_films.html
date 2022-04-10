@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Модальное окно для измененя рейтинга -->
+    <div class="modal fade" id="starRating" tabindex="-1" aria-labelledby="starRatingLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="starRatinglLabel">Изменить оценкук</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form action="" class="reg-form", method="post">
+            <div class="simple-rating">
+                <div class="simple-rating-items">
+                    <input id="simple-rating-5" type="radio" class="simple-rating-item" name="simple-rating" value="5">
+                    <label for="simple-rating-5" class="simple-rating-label"></label>
+                    <input id="simple-rating-4" type="radio" class="simple-rating-item" name="simple-rating" value="4">
+                    <label for="simple-rating-4" class="simple-rating-label"></label>
+                    <input id="simple-rating-3" type="radio" class="simple-rating-item" name="simple-rating" value="3">
+                    <label for="simple-rating-3" class="simple-rating-label"></label>
+                    <input id="simple-rating-2" type="radio" class="simple-rating-item" name="simple-rating" value="2">
+                    <label for="simple-rating-2" class="simple-rating-label"></label>
+                    <input id="simple-rating-1" type="radio" class="simple-rating-item" name="simple-rating" value="1">
+                    <label for="simple-rating-1" class="simple-rating-label"></label>
+                </div>
+            </div>
+                  <input type="submit" class="btn btn-success" value="Submit">
+                  </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <input type="submit" class="btn btn-success" value="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container mt-5 col-md-8">
+    <h1 class="text-center">Мои фильмы</h1>
+ <ul class="nav nav-tabs nav-fill " id="myTab" role="tablist">
+  <li class="nav-item mx-0" role="presentation">
+      {% if list_num == 1 %}
+    <button class="nav-link active py-2" style="padding: 3px;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">В процессе</button>
+      {% else %}
+      <button class="nav-link py-2" style="padding: 3px;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">В процессе</button>
+      {% endif %}
+  </li>
+  <li class="nav-item mx-0" role="presentation">
+      {% if list_num == 2 %}
+    <button class="nav-link active py-2" style="padding: 3px;" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">На очереди</button>
+      {% else %}
+    <button class="nav-link py-2" style="padding: 3px;" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">На очереди</button>
+      {% endif %}
+  </li>
+  <li class="nav-item mx-0" role="presentation">
+      {% if list_num == 3 %}
+    <button class="nav-link active py-2" style="padding: 3px;" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Завершено</button>
+      {% else %}
+    <button class="nav-link py-2" style="padding: 3px;" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Завершено</button>
+      {% endif %}
+  </li>
+</ul>
+
+    <div class="tab-content" id="myTabContent">
+      {% if list_num == 1 %}
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    {% else %}
+        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+    {% endif %}
+          <div class="accordion accordion-flush" id="ac1">
+            {% for n, i in current_films %}
+                <div class="accordion-item">
+                     <h2 class="accordion-header" id="heading{{i.film_id-1}}">
+                        <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{i.film_id-1}}" aria-expanded="false"
+                                aria-controls="collapse{{i.film_id-1}}">
+                            <div class="container m-0">
+                              <div class="row">
+                                  <div class="col-1">
+                                      <h4 class="text-end">{{n}}.</h4>
+                                  </div>
+                                <div class="col">
+                                  <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
+                                </div>
+                                <div class="col-2 position-relative">
+                                    <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
+                                        {% if i.score >=9 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
+                                        {% elif i.score >=7 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★<span style="color:grey;">★</span></p>
+                                        {% elif i.score >=5 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★<span style="color:grey;">★★</span></p>
+                                        {% elif i.score >=3 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★<span style="color:grey;">★★★</span></p>
+                                        {% elif i.score >=1 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★<span style="color:grey;">★★★★</span></p>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{i.film_id-1}}" class="accordion-collapse collapse" aria-labelledby="heading{{i.film_id-1}}" >
+                        <div class="card bg-light m-0 border-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-lg-2 col-sm-4 me-4">
+                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                            </div>
+                            <div class="col-lg-9 col-sm-7">
+                              <div class="card-body p-0">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{films[i.film_id-1].descript}}</p>
+                                <p>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=1) }}" class="btn btn-danger">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=1 ) }}" class="btn btn-primary">На очереди</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=1 ) }}" class="btn btn-primary mt-1">Завершен</a>
+                                </p>
+                                <p>
+                                  {% if i.link == '' %}
+                                      <span class="d-inline-block myPopover" tabindex="0" data-toggle="popover" data-bs-trigger="hover focus"  >
+                                          <button class="btn btn-secondary" type="button" disabled>Смотреть</button>
+                                      </span>
+                                  {% else %}
+                                      <a href="{{ i.link }}" target="_blank" class="btn btn-warning">Смотреть</a>
+                                  {% endif %}
+                                      <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+      </div>
+      {% if list_num == 2 %}
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      {% else %}
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      {% endif %}
+          <div class="accordion accordion-flush" id="ac2">
+            {% for n, i in wish_list %}
+                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{i.film_id-1}}">
+                        <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{i.film_id-1}}" aria-expanded="false"
+                                aria-controls="collapse{{i.film_id-1}}">
+                            <div class="container m-0">
+                              <div class="row">
+                                  <div class="col-1">
+                                      <h4 class="text-end">{{n}}.</h4>
+                                  </div>
+                                <div class="col">
+                                  <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
+                                </div>
+                                <div class="col-2 position-relative">
+                                    <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
+                                        {% if i.score >=9 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
+                                        {% elif i.score >=7 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★<span style="color:grey;">★</span></p>
+                                        {% elif i.score >=5 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★<span style="color:grey;">★★</span></p>
+                                        {% elif i.score >=3 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★<span style="color:grey;">★★★</span></p>
+                                        {% elif i.score >=1 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★<span style="color:grey;">★★★★</span></p>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{i.film_id-1}}" class="accordion-collapse collapse" aria-labelledby="heading{{i.film_id-1}}" >
+                        <div class="card bg-light m-0 border-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-lg-2 col-sm-4 me-4">
+                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                            </div>
+                            <div class="col-lg-9 col-sm-7">
+                              <div class="card-body p-0">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{films[i.film_id-1].descript}}</p>
+                                <p>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=2) }}" class="btn btn-danger">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=2 ) }}" class="btn btn-primary">В процессе</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=2 ) }}" class="btn btn-primary mt-1">Завершен</a>
+                                </p>
+                                <p>
+                                  {% if i.link == '' %}
+                                      <span class="d-inline-block myPopover" tabindex="0" data-toggle="popover" data-bs-trigger="hover focus"  >
+                                          <button class="btn btn-secondary" type="button" disabled>Смотреть</button>
+                                      </span>
+                                  {% else %}
+                                      <a href="{{ i.link }}" target="_blank" class="btn btn-warning">Смотреть</a>
+                                  {% endif %}
+                                      <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+      {% if list_num == 3 %}
+      <div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      {% else %}
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      {% endif %}
+          <div class="accordion accordion-flush" id="ac3">
+            {% for n, i in archive %}
+                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{i.film_id-1}}">
+                        <button class="accordion-button collapsed ps-0" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{i.film_id-1}}" aria-expanded="false"
+                                aria-controls="collapse{{i.film_id-1}}">
+                            <div class="container m-0">
+                              <div class="row">
+                                  <div class="col-1">
+                                      <h4 class="text-end">{{n}}.</h4>
+                                  </div>
+                                <div class="col">
+                                  <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
+                                </div>
+                                <div class="col-2 position-relative">
+                                    <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
+                                        {% if i.score >=9 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
+                                        {% elif i.score >=7 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★<span style="color:grey;">★</span></p>
+                                        {% elif i.score >=5 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★<span style="color:grey;">★★</span></p>
+                                        {% elif i.score >=3 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★<span style="color:grey;">★★★</span></p>
+                                        {% elif i.score >=1 %}
+                                        <p class="text-end position-absolute top-50 end-0 translate-middle-y">★<span style="color:grey;">★★★★</span></p>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{i.film_id-1}}" class="accordion-collapse collapse" aria-labelledby="heading{{i.film_id-1}}" >
+                        <div class="card bg-light m-0 border-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-lg-2 col-sm-4 me-4">
+                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                            </div>
+                            <div class="col-lg-9 col-sm-7">
+                              <div class="card-body p-0">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{films[i.film_id-1].descript}}</p>
+                                <p>
+                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=3) }}" class="btn btn-danger">Удалить</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=3 ) }}" class="btn btn-primary">В процессе</a>
+                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=3 ) }}" class="btn btn-primary mt-1">На очереди</a>
+                                </p>
+                                <p>
+                                  {% if i.link == '' %}
+                                      <span class="d-inline-block myPopover" tabindex="0" data-toggle="popover" data-bs-trigger="hover focus"  >
+                                          <button class="btn btn-secondary" type="button" disabled>Смотреть</button>
+                                      </span>
+                                  {% else %}
+                                      <a href="{{ i.link }}" target="_blank" class="btn btn-warning">Смотреть</a>
+                                  {% endif %}
+                                      <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
+
+
+</div>
+{% endblock %}
