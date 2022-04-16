@@ -1,24 +1,93 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="row p-3 justify-content-center" style="margin-top: 100px;">
-    <div class="col-lg-3">
-        <div class="card mb-4 card-style">
-            <div class="card-body text-center">
-                <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
-                    <img class="w-100 h-100" src="{{ url_for('userava') }}" alt="avatar">
+<body>
+    <section class="h-100 gradient-custom-2">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="card">
+                <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                  <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                    <img src="{{ url_for('userava') }}" class="img-fluid img-thumbnail mt-4 mb-2 rounded-circle" style="width: 150px; z-index: 1; height: 150px;">
+                   <a class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;" href="{{ url_for('edit_profile') }}">
+                      Редактировать профиль
+                    </a>
+                  </div>
+                  <div class="ms-3" style="margin-top: 90px;">
+                    <h5>{{ current_user.name }}</h5>
+                    <p>Дата регистрации: {{ current_user.date_reg }}</p>
+                  </div>
                 </div>
-                <h5 class="my-3">{{ current_user.name }}</h5>
-                <p class="text-muted">{{ current_user.email }}</p>
-                <div class="d-flex justify-content-center mb-2">
-                    <form action="{{ url_for('upload_avatar') }}" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="file">
-                        <button type="submit">Загрузить</button>
-                    </form>
+                <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                  <div class="d-flex justify-content-end text-center py-1">
+                    <div class="px-3">
+                      <p class="mb-1 h5">???</p>
+                      <p class="small text-muted mb-0">Фильмы</p>
+                    </div>
+                    <div>
+                      <p class="mb-1 h5">???</p>
+                      <p class="small text-muted mb-0">Сериалы</p>
+                    </div>
+                  </div>
                 </div>
-            </div>
+                <div class="card-body p-4 text-black">
+                  <div class="mb-5">
+                    <p class="lead fw-normal mb-1">Обо мне</p>
+                    <div class="p-4" style="background-color: #f8f9fa;">
+                      <p class="font-italic mb-1"></p>
+                      <p class="font-italic mb-1"></p>
+                      <p class="font-italic mb-0"></p>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <p class="lead fw-normal mb-0">Просмотренное</p>
+                    <p class="mb-0"><a href="#!" class="text-muted">Показать все</a></p>
+                  </div>
+                  <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                      <div class="card">
+                        <img src="https://upload.wikimedia.org/wikipedia/ru/archive/0/05/20211122104937%21Venom_poster.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Название карточки</h5>
+                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card">
+                        <img src="https://img.championat.com/i/o/k/1636354330209427598.jpg" class="card-img-top img-fluid" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Название карточки</h5>
+                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Название карточки</h5>
+                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Название карточки</h5>
+                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!-- Button trigger modal -->
+
+          </div>
         </div>
-    </div>
-</div>
+      </section>
+</body>
 
 {% endblock %}

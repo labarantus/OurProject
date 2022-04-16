@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, FileField, TextAreaField, URLField, RadioField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
 from wtforms.validators import DataRequired, Email, InputRequired, Length, ValidationError, \
-                               NumberRange, URL, Regexp, HostnameValidation
+                               NumberRange, URL, Regexp, HostnameValidation, EqualTo
 import email_validator
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
@@ -105,7 +105,7 @@ class Film(db.Model):
     def __repr__(self):
         return '<Film %r>' % self.id
 
-
+# Таблица фильмов.
 class FilmInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False )
@@ -117,7 +117,7 @@ class FilmInfo(db.Model):
     review = db.Column(db.String, nullable=True)
 
 
-
+# Таблица сериалов
 class Serial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     serial_name = db.Column(db.String(50), unique=True)
@@ -139,14 +139,14 @@ class Serial(db.Model):
 
 db.create_all()
 
-
+# Проверка на валидность ника.
 def validate_username(form, name):
     excluded_chars = "!@#$%^&*()_+{}[];'./,"
     for char in name.data:
         if char in excluded_chars:
             raise ValidationError(f"Обраружен запрещённый символ: {char}")
 
-
+# Форма регистрации
 class RegistrationForm(FlaskForm):
     name = StringField(label='Имя пользователя', validators=[InputRequired('Пустое поле'), validate_username])
     email = StringField(label='Электронная почта',
@@ -156,13 +156,26 @@ class RegistrationForm(FlaskForm):
                                                                                         "до %(max)d")])
     submit = SubmitField(label='Регистрация')
 
-
+# Форма авторизации.
 class LoginForm(FlaskForm):
     name = StringField(label='Имя пользователя', validators=[InputRequired('Пустое поле'), validate_username])
     password = PasswordField(label='Пароль', validators=[DataRequired(), Length(min=5, max=32,
                                                                                 message="Пароль должен быть от %(min)d "
                                                                                         "до %(max)d")])
     submit = SubmitField(label='Войти')
+
+# Редактирование профиля
+class EditProfileForm(FlaskForm):
+    name = StringField(label='Имя пользователя', validators=[InputRequired('Пустое поле'), validate_username])
+    password = PasswordField(label='Пароль')
+    confirm_password = PasswordField(
+        label='Повторите пароль',
+        validators=[
+        EqualTo('password', message="Введённые пароли не совпадают.")]
+    )
+    email = StringField(label='Электронная почта',
+                        validators=[DataRequired(), Email(message='Неверный адрес эл. почты')])
+    submit = SubmitField(render_kw={"class": "btn-success", "value": "Редактировать"})
 
 
 def max_year():
@@ -181,7 +194,7 @@ class FilmForm(FlaskForm):
     link = URLField(label="Ссылка для просмотра", validators=[URLcheck(message='Введите корректный адрес')],
                     render_kw={"class": "form-control", "placeholder": "Введите адрес сайта для просмотра"})
     poster = FileField('Добавить постер', validators=[ FileAllowed(['jpg', 'png']),
-                       FileSize(1024*1024, 1, "Слишком большой")], render_kw={"class": "form-control-file"})
+                                   FileSize(1024*1024, 1, "Слишком большой")], render_kw={"class": "form-control-file"})
     submit = SubmitField(render_kw={"class": "btn-success", "value": "Добавить фильм"})
 
 # ..
@@ -252,6 +265,7 @@ def add_film():
     else:
         return render_template('add_film.html', form=form)
 
+
 @app.route("/my-films/<int:id>/update", methods=("POST", "GET"))
 def film_update(id):
     form = FilmForm()
@@ -312,6 +326,7 @@ def reg():
         user = User(name=username, email=email_user, passw=password)
         db.session.add(user)
         db.session.commit()
+        return redirect(url_for("login"))
     return render_template('registration.html', form=form)
 
 
@@ -368,19 +383,42 @@ def getposter(id):
 def userava():
     img = current_user.avatar_user
     if not img:
-        return ""
+        with app.open_resource(app.root_path + url_for('static', filename='img/default.jpg'), 'rb') as f:
+            img = f.read()
+            h = make_response(img)
+            h.headers['Content-Type'] = 'image/img'
+            return h
 
     h = make_response(img)
     h.headers['Content-Type'] = 'image/img'
     return h
 
 
-@app.route("/admin")
+@app.route("/admin", methods=("POST", "GET"))
 def admin():
     if not current_user.is_authenticated:
         return redirect(url_for('index'))
     user_info = User.query.all()
     return render_template('admin.html', user_info=user_info)
+
+@app.route("/edit_profile", methods=("GET", "POST"))
+def edit_profile():
+    editform = EditProfileForm()
+    if editform.validate_on_submit():
+        cur_user = User.query.get(current_user.id)
+        cur_user.name = editform.name.data
+        if editform.password.data and editform.confirm_password:
+            cur_user.passw = generate_password_hash(editform.password.data)
+        else:
+            pass
+        cur_user.email = editform.email.data
+        try:
+            db.session.commit()
+        except:
+            return "Ошибка редактирования"
+
+    return render_template('edit_profile.html', form=editform)
+
 
 # Это не трогать, иначе не будет работать. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

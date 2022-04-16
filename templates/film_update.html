@@ -12,11 +12,9 @@
                         <p>{{ form.film_name(value=film.film_name) }}</p>
                         <p>{{ form.year(value=film.year) }}</p>
                         <p>{{ form.descript() }}</p>
-                        <p> {{ form.link(value=info.link)}} </p>
-                        <p>{{ form.poster}}</p>
+                        <p> {{ form.link(value=info.link) }} </p>
+                        <p>{{ form.poster }}</p>
                         <p>{{ form.submit(value="Изменить фильм") }}</p>
-
-
                         {% if form.errors %}
                         <div class="form-group alert alert-danger" style="margin-top: 10px;">
                             {% for field, errors in form.errors.items() %}
