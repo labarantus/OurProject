@@ -1,0 +1,30 @@
+{% block more_f %}
+<div class="modal fade" id="more_f{{film.id}}" tabindex="-1" aria-labelledby="more_f{{film.id}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative p-4">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle text-center" id="more_f{{film.id}}Label">{{film.film_name}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                          <div class="card bg-light m-0 border-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-lg-3 col-sm-4 me-4">
+                              <img src="{{ url_for('getposter', id=film.id, type=1) }}" class="img-fluid rounded position-relative " alt="poster" height="240" width="160">
+                                <p>Год выхода: {{film.year}}</p>
+                                <a href="{{ url_for('write_in_list', id=film.id, type=1) }} " class="btn btn-success" width="220">Добавить</a>
+                            </div>
+                            <div class="col-lg-8 col-sm-6">
+                              <div class="card-body p-0">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{film.descript}}</p>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+{% endblock %}

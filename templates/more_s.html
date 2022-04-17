@@ -1,0 +1,34 @@
+{% block more_s %}
+<div class="modal fade " id="more_s{{serial.id}}" tabindex="-1" aria-labelledby="more_s{{serial.id}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative p-4">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle text-center" id="more_s{{serial.id}}Label">{{serial.serial_name}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                          <div class="card bg-light m-0 border-0" >
+                          <div class="row g-0 p-3">
+                            <div class="col-lg-3 col-sm-4 me-4">
+                              <img src="{{ url_for('getposter', id=serial.id, type=2) }}" class="img-fluid rounded position-relative " alt="poster" height="240" width="160">
+                                <br>
+                                <a>Год выхода: {{serial.year}}</a><br>
+                                <a>Количество сезонов: {{serial.seasons}}</a><br>
+                                <a>Кодичество серий: {{serial.eps}}</a><br>
+                                <a>Длительность серии: {{serial.eps_length}}</a><br>
+                                <a href="{{ url_for('write_in_list', id=serial.id, type=2) }} " class="btn btn-success mb-1" width="220">Добавить</a>
+                            </div>
+                            <div class="col-lg-8 col-sm-6">
+                              <div class="card-body p-0">
+                                <h5 class="card-title">Описание</h5>
+                                <p class="card-text">{{serial.descript}}</p>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+{% endblock %}

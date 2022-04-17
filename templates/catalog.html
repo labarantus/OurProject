@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Модальное окно для измененя рейтинга -->
+
+
+<div class="container mt-5 col-md-10 text-center position-relative" xmlns="http://www.w3.org/1999/html">
+    <h1 class="text-center">Каталог</h1>
+    <div class="container col-md-7">
+        <ul class="nav nav-pills nav-fill mb-3 ml-5" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-films"
+                type="button" role="tab" aria-controls="pills-home" aria-selected="true">Фильмы</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-serials"
+                type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Сериалы</button>
+      </li>
+    </ul>
+    </div>
+
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-films" role="tabpanel" aria-labelledby="pills-home-tab">
+          {% for film in films %}
+          {% include 'more_f.html' %}
+            <div class="main-container">
+                <div class="thecard">
+                    <div class="thefront">
+                        <img src="{{ url_for('getposter', id=film.id, type=1) }}" class="img-fluid rounded position-relative " alt="poster" height="330" width="220">
+                    </div>
+                    <div class="theback">
+                        <p class="text-center" style="font-size: 24px; font-family: 'Oswald', sans-serif;">{{film.film_name}}</p>
+                        <div>
+                        <button type="button" class="btn btn-outline-light mb-1" data-bs-toggle="modal" data-bs-target="#more_f{{film.id}}">Подробнее</button>
+                        <a href="{{ url_for('write_in_list', id=film.id, type=1) }} " class="btn btn-success">Добавить</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+      <div class="tab-pane fade" id="pills-serials" role="tabpanel" aria-labelledby="pills-profile-tab">
+          {% for serial in serials %}
+          {% include 'more_s.html' %}
+            <div class="main-container">
+                <div class="thecard">
+                    <div class="thefront">
+                        <img src="{{ url_for('getposter', id=serial.id, type=2) }}" class="img-fluid rounded position-relative " alt="poster" height="330" width="220">
+                    </div>
+                    <div class="theback">
+                        <p class="text-center" style="font-size: 24px; font-family: 'Oswald', sans-serif;">{{serial.serial_name}}</p>
+                        <div>
+                        <button type="button" class="btn btn-outline-light mb-1" data-bs-toggle="modal" data-bs-target="#more_s{{serial.id}}">Подробнее</button>
+                        <a href="{{ url_for('write_in_list', id=serial.id, type=2) }} " class="btn btn-success">Добавить</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

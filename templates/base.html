@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontello.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,10 +51,19 @@
                         </div>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link active" href=" {{ url_for('catalog') }}">Каталог</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link active" href=" {{ url_for('my_films', list_num=1) }}">Мои фильмы</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href=" {{ url_for('add_film') }}">Добавить</a>
+                  <a class="nav-link active" href=" {{ url_for('my_serials', list_num=1) }}">Мои сериалы</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href=" {{ url_for('add_film') }}">Добавить фильм</a>
+                </li>
+              <li class="nav-item">
+                  <a class="nav-link active" href=" {{ url_for('add_serial') }}">Добавить сериал</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-danger position-relative m-0" href="{{ url_for('logout') }}" role="button">Выйти</a>
@@ -67,6 +79,8 @@
             </div>
       </div>
 </nav>
+
+
     {% endblock %}
 <!-- Конец верхней строки -->
 
@@ -79,7 +93,15 @@
   <script>
     $(document).ready(function(){
         $('[class="d-inline-block myPopover"]').popover({
-            content: '<p>Нажмите <span class="badge bg-success">Изменить</span> чтобы добавить ссылку для просмотра.</p>',
+            content: 'Нажмите <span class="badge bg-success">Изменить</span> чтобы добавить ссылку для просмотра.',
+            html: true
+        });
+    });
+  </script>
+<script>
+    $(document).ready(function(){
+        $('[class="d-inline-block scorePopover"]').popover({
+            content: 'Нажмите, чтобы изменить.',
             html: true
         });
     });

@@ -203,6 +203,178 @@ color: green;
  content: "\f005";
 }
 
+/*body {
+  text-align: center;
+  color: #f5f5f5;
+  background-image: linear-gradient(-90deg , #0c0c0d, #1a1a1a);
+  font-family: 'Roboto';
+}*/
 
+.app {
+  max-width: 300px;
+  margin: 0 auto;
+}
 
+.app i {
+  font-size: 80px;
+}
+
+article {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  margin: 5px;
+  float: left;
+  border: 2px solid #50bcf2;
+  box-sizing: border-box;
+}
+
+article div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 5px;
+  transition: .5s ease;
+}
+
+article input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 20px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+input[type=checkbox]:checked ~ div {
+  background-color: #50bcf2;
+}
+
+/*.upgrade-btn {
+  display: block;
+  margin: 30px auto;
+  width: 200px;
+  padding: 10px 20px;
+  border: 2px solid #50bcf2;
+  border-radius: 50px;
+  color: #f5f5f5;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: .3s ease;
+}*/
+
+.upgrade-btn:hover {
+  background-color: #50bcf2;
+}
+
+.blue-color {
+  color: #50bcf2;
+}
+
+.gray-color {
+  color: #555;
+}
+
+.social i:before {
+  width: 14px;
+  height: 14px;
+  position: fixed;
+  color: #fff;
+  background: #0077B5;
+  padding: 10px;
+  border-radius: 50%;
+  top:5px;
+  right:5px;
+}
+
+@keyframes slidein {
+  from {
+    margin-top: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin: 0%;
+    width: 100%;
+  }
+}
+
+.btn-off{
+    background-color: #DC3545;
+    color: #FFFFFF;
+}
+
+.btn-off: focus{
+    color: #fff;
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+  box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
+}
+.btn-label:focus{
+    background-color: #198754;
+}
+.btn-off:checked ~ label{
+  color: #fff;
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-on:checked ~ label{
+    color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.main-container{
+    position: relative;
+    width: 220px;
+    height: 330px;
+    display: inline-block;
+    margin: 15px;
+
+}
+
+.thecard{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.thecard:hover{
+    transform: rotateY(180deg);
+}
+
+.thefront{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: yellow;
+    color: #333;
+    border-radius: 8px;
+}
+
+.theback{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 35%;
+    padding-left: 20px;
+    padding-right: 20px;
+    backface-visibility: hidden;
+    background-color: #444B54;
+    color: #EDF4FA;
+    border-radius: 5px;
+    transform: rotateY(180deg);
+}
+
+.my-nav{
+    margin-left: 50%;
+    margin-right: 50%;
+}
 

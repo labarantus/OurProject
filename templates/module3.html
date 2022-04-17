@@ -1,0 +1,38 @@
+{% block module %}
+<div class="modal fade" id="epsModal{{i.serial_id-1}}" tabindex="-1" aria-labelledby="epsModal{{i.serial_id-1}}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header position-relative p-4">
+                        <h5 class="modal-title position-absolute top-50 start-50 translate-middle text-center" id="exampleModalLabel{{i.serial_id-1}}">Просмотренные серии</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body position-relative" style="background-color: #fff;">
+                          <form action="/get_len" class="text-center" method="post" name="form{{n}}">
+                              <input id="eps_{{serials[i.serial_id-1].id}}" name="eps_{{serials[i.serial_id-1].id}}" type="hidden" value="{{serials[i.serial_id-1].eps}}">
+                              <input id="ser_id_{{serials[i.serial_id-1].id}}" name="ser_id_{{serials[i.serial_id-1].id}}" type="hidden" value="{{serials[i.serial_id-1].id}}">
+                              <input id="seasons_{{serials[i.serial_id-1].id}}" name="seasons_{{serials[i.serial_id-1].id}}" type="hidden" value="{{serials[i.serial_id-1].seasons}}">
+
+                              {% for m in watch_check_3[n-1] %}
+                              {% if m.eps_num == 1 %}
+                                <p class="text-center">{{m.season_num}} сезон</p>
+                              {% endif %}
+                              {% if m.watched == False %}
+                              <span>
+                                <input type="checkbox" class="btn-check btn-off m-1" id="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}"  name="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" value="1" onclick="get_len({{m.serial_id}});">
+                                <input type="hidden" class="btn-check m-1" id="simple-rating-hidden{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" name="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" value="0" >
+                              <label class="btn btn-danger m-1" for="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}">{% if m.eps_num<10 %}0{% endif %}{{m.eps_num}}</label>
+                              </span>
+                              {% elif m.watched == True  %}
+                              <span>
+                              <input type="checkbox" class="btn-check btn-on m-1" id="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}"  name="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" value="0" onclick="get_len({{m.serial_id}});">
+                              <input id="simple-rating-hidden{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" type="hidden" class="btn-check m-1" name="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}" value="1" >
+                              <label class="btn btn-success m-1" for="simple-rating{{m.serial_id}}_{{m.season_num}}_{{m.eps_num}}">{% if m.eps_num<10 %}0{% endif %}{{m.eps_num}}</label>
+                                  </span>
+                              {% endif %}
+                        {% endfor %}
+                              </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container-sm reg-container">
+        <div class="row">
+            <div class="col-xl"></div>
+            <div class="col-sm outline-col">
+                <div class="mb-3">
+                    <form action="" class="reg-form", method="post" enctype="multipart/form-data">
+                        {{ form.csrf_token() }}
+                        <h3>Изменение сериала</h3>
+                        <p>{{ form.serial_name(value=serial.serial_name) }}</p>
+                        <p>{{ form.year(value=serial.year) }}</p>
+                        <p>{{ form.descript() }}</p>
+                        <p>{{ form.seasons(value=serial.seasons) }}</p>
+                        <p>{{ form.eps(value=serial.eps) }}</p>
+                        <p>{{ form.eps_length(value=serial.eps_length) }}</p>
+                        <p> {{ form.link(value=info.link)}} </p>
+                        <p>{{ form.poster}}</p>
+                        <p>{{ form.submit(value="Изменить сериал") }}</p>
+
+
+                        {% if form.errors %}
+                        <div class="form-group alert alert-danger" style="margin-top: 10px;">
+                            {% for field, errors in form.errors.items() %}
+                            {{ ', '.join(errors) }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-xl"></div>
+        </div>
+
+    </div>
+
+{% endblock %}

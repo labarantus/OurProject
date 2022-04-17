@@ -2,7 +2,6 @@
 {% block content %}
 <!-- Модальное окно для измененя рейтинга -->
 
-
 <div class="container mt-5 col-md-8">
     <h1 class="text-center">Мои фильмы</h1>
  <ul class="nav nav-tabs nav-fill " id="myTab" role="tablist">
@@ -32,7 +31,7 @@
     <div class="tab-content" id="myTabContent">
       {% if list_num == 1 %}
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    {% else %}
+      {% else %}
         <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
     {% endif %}
           <div class="accordion accordion-flush" id="ac1">
@@ -96,7 +95,7 @@
                                 <div class="col">
                                   <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
                                 </div>
-                                <div class="col-2 position-relative">
+                                <div class="col-3 position-relative">
                                     <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
                                         {% if i.score >=9 %}
                                         <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
@@ -119,16 +118,16 @@
                         <div class="card bg-light m-0 border-0" >
                           <div class="row g-0 p-3">
                             <div class="col-lg-2 col-sm-4 me-4">
-                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                              <img src="{{ url_for('getposter', id=i.film_id, type=1) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
                             </div>
                             <div class="col-lg-9 col-sm-7">
                               <div class="card-body p-0">
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=1) }}" class="btn btn-danger mt-1">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=1 ) }}" class="btn btn-primary mt-1">На очереди</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=1 ) }}" class="btn btn-primary mt-1">Завершен</a>
+                                    <a href="{{ url_for('del_item', id=i.film_id, origin_list=1, type=1) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=2, origin_list=1, type=1 ) }}" class="btn btn-primary mt-1">На очереди</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=3, origin_list=1, type=1 ) }}" class="btn btn-primary mt-1">Завершен</a>
                                 </p>
                                 <p>
                                   {% if i.link == '' %}
@@ -140,10 +139,15 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
-                                  </p> Ваша оценка:
-                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
-                                         {{ i.score }}
+                                  <p> Ваша оценка:
+                                        <span class="d-inline-block scorePopover" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus">
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}" >
+                                            {% if i.score != 0 %}
+                                                {{ i.score }}
+                                            {% else %} -
+                                            {% endif %}
                                         </button>
+                                      </span>
                                   </p>
                               </div>
                             </div>
@@ -221,7 +225,7 @@
                                 <div class="col">
                                   <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
                                 </div>
-                                <div class="col-2 position-relative">
+                                <div class="col-3 position-relative">
                                     <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
                                         {% if i.score >=9 %}
                                         <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
@@ -244,16 +248,16 @@
                         <div class="card bg-light m-0 border-0" >
                           <div class="row g-0 p-3">
                             <div class="col-lg-2 col-sm-4 me-4">
-                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                              <img src="{{ url_for('getposter', id=i.film_id, type=1) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
                             </div>
                             <div class="col-lg-9 col-sm-7">
                               <div class="card-body p-0">
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=2) }}" class="btn btn-danger mt-1">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=2 ) }}" class="btn btn-primary mt-1">В процессе</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=3, origin_list=2 ) }}" class="btn btn-primary mt-1">Завершен</a>
+                                    <a href="{{ url_for('del_item', id=i.film_id, origin_list=2, type=1) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=1, origin_list=2, type=1 ) }}" class="btn btn-primary mt-1">В процессе</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=3, origin_list=2, type=1 ) }}" class="btn btn-primary mt-1">Завершен</a>
                                 </p>
                                 <p>
                                   {% if i.link == '' %}
@@ -265,10 +269,15 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
-                                  </p> Ваша оценка:
-                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
-                                         {{ i.score }}
+                                  <p> Ваша оценка:
+                                        <span class="d-inline-block scorePopover" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus">
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}" >
+                                         {% if i.score != 0 %}
+                                                {{ i.score }}
+                                            {% else %} -
+                                            {% endif %}
                                         </button>
+                                      </span>
                                   </p>
                               </div>
                             </div>
@@ -345,7 +354,7 @@
                                 <div class="col">
                                   <h4>{{films[i.film_id-1].film_name}} ({{films[i.film_id-1].year}})  </h4>
                                 </div>
-                                <div class="col-2 position-relative">
+                                <div class="col-3 position-relative">
                                     <span class="position-absolute top-50 end-0 translate-middle-y" style="color: #FFB300; font-size: 1rem;">
                                         {% if i.score >=9 %}
                                         <p class="text-end position-absolute top-50 end-0 translate-middle-y">★★★★★</p>
@@ -368,16 +377,16 @@
                         <div class="card bg-light m-0 border-0" >
                           <div class="row g-0 p-3">
                             <div class="col-lg-2 col-sm-4 me-4">
-                              <img src="{{ url_for('getposter', id=i.film_id) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
+                              <img src="{{ url_for('getposter', id=i.film_id, type=1) }}" class="img-fluid rounded position-relative " alt="poster" height="280" width="185">
                             </div>
                             <div class="col-lg-9 col-sm-7">
                               <div class="card-body p-0">
                                 <h5 class="card-title">Описание</h5>
                                 <p class="card-text">{{films[i.film_id-1].descript}}</p>
                                 <p>
-                                    <a href="{{ url_for('film_del', film_id=i.film_id, origin_list=3) }}" class="btn btn-danger mt-1">Удалить</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=1, origin_list=3 ) }}" class="btn btn-primary mt-1">В процессе</a>
-                                    <a href="{{ url_for('relocate_film', film_id=i.film_id, dest_list=2, origin_list=3 ) }}" class="btn btn-primary mt-1">На очереди</a>
+                                    <a href="{{ url_for('del_item', id=i.film_id, origin_list=3, type=1) }}" class="btn btn-danger mt-1">Удалить</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=1, origin_list=3, type=1 ) }}" class="btn btn-primary mt-1">В процессе</a>
+                                    <a href="{{ url_for('relocate', id=i.film_id, dest_list=2, origin_list=3, type=1 ) }}" class="btn btn-primary mt-1">На очереди</a>
                                 </p>
                                 <p>
                                   {% if i.link == '' %}
@@ -389,10 +398,15 @@
                                   {% endif %}
                                       <a href="{{ url_for('film_update', id=i.film_id) }} " class="btn btn-success">Изменить</a>
                                 </p>
-                                  </p> Ваша оценка:
-                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}">
-                                         {{ i.score }}
+                                  <p> Ваша оценка:
+                                  <span class="d-inline-block scorePopover" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus">
+                                        <button type="button" class="btn btn-success btn-sm" style="background-color: #3BB33B; border-color: #3BB33B;" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.film_id-1}}" >
+                                         {% if i.score != 0 %}
+                                                {{ i.score }}
+                                            {% else %} -
+                                            {% endif %}
                                         </button>
+                                      </span>
                                   </p>
                               </div>
                             </div>
